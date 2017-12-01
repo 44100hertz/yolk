@@ -21,7 +21,14 @@ local add_actor = function (name, x, y, ...)
     actors[#actors+1] = actor
 end
 
-add_actor("test", 50, 50)
+local load_level = function (name)
+    local level = dofile("levels/" .. name .. ".lua")
+    for _,actor in ipairs(level.actors) do
+        add_actor(unpack(actor))
+    end
+end
+
+load_level("test")
 
 love.update = function ()
     for i,actor in ipairs(actors) do

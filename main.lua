@@ -15,6 +15,7 @@ end
 function base_actor:update () self:physics () end
 function base_actor:die () end
 function base_actor:draw () end
+function base_actor:collide () end
 
 local add_actor = function (name, ...)
     local actor = dofile("actors/" .. name .. ".lua")
@@ -33,7 +34,13 @@ end
 
 load_level("test")
 
+local check_collision
 love.update = function ()
+    for i = 1,#actors do
+        for j = i+1,#actors do
+            check_collision(actors[i], actors[j])
+        end
+    end
     for i,actor in ipairs(actors) do
         actor:update() 
     end
@@ -41,6 +48,26 @@ love.update = function ()
         if actor.killme then
             actor:die()
             actors[#actors-1] = actors[i]
+        end
+    end
+end
+
+check_collision = function (a, b)
+    if a.player and not b.player or
+       #a.hitboxes == 0 or #b.hitboxes == 0
+    then
+        return
+    end
+    for _,ha in ipairs(a.hitboxes) do
+        for _,hb in ipairs(b.hitboxes) do
+            local dist_x = (a.x + ha[1]) - (b.x + hb[1])
+            local dist_y = (a.y + ha[2]) - (b.y + hb[2])
+            local thresh = ha[3] + hb[3]
+            if dist_x*dist_x + dist_y*dist_y < thresh*thresh then
+                a:collide(b)
+                b:collide(a)
+                return
+            end
         end
     end
 end

@@ -6,11 +6,15 @@ game.load_level("test")
 
 local buttons = {}
 local keymap = {
-    z    = "a",  x     = "b",
-    left = "dl", right = "dr",
-    up   = "du", down  = "dd",
-    a    = "dl", d     = "dr",
-    w    = "du", s     = "dd",
+    z     = "a",  x     = "b",
+    lshift= "a",  lalt  = "b",
+    up    = "du", down  = "dd",
+    left  = "dl", right = "dr",
+    i     = "du", k     = "dd",
+    j     = "dl", l     = "dr",
+    rctrl = "a",  rshift= "b",
+    w     = "du", s     = "dd",
+    a     = "dl", d     = "dr",
 }
 
 local handlers = {

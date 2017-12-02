@@ -52,6 +52,7 @@ love.run = function ()
         internal:renderTo(function ()
             game.draw()
         end)
+        lg.origin()
         local ww, wh = love.window.getMode()
         local sx, sy = ww/_G.GAMEW, wh/_G.GAMEH
         lg.draw(internal, 0, 0, 0, sx, sy)

@@ -4,7 +4,6 @@ local actors
 
 local base_actor = {
     x=0, y=0, dx=0, dy=0,
-    hitboxes = {},
 }
 function base_actor:setpos (x, y)
     self.x, self.y = x ,y
@@ -19,23 +18,32 @@ function base_actor:die () end
 function base_actor:draw () end
 function base_actor:collide () end
 
+local player
+local scroll, scroll_rate
 game.add_actor = function (name, ...)
     local actor = dofile("actors/" .. name .. ".lua")
     setmetatable(actor, {__index = base_actor})
     actor:init(...)
     actors[#actors+1] = actor
+    return actor
 end
 
 game.load_level = function (name)
+    scroll = 0
+    scroll_rate = 0.25
     actors = {}
     local level = dofile("levels/" .. name .. ".lua")
     for _,actor in ipairs(level.actors) do
         game.add_actor(unpack(actor))
     end
+    player = game.add_actor("player", 20, _G.GAMEH/2)
 end
 
 local check_collision
 game.update = function (buttons)
+    scroll = scroll + scroll_rate
+    player.x = player.x + scroll_rate
+    lg.translate(-scroll, 0)
     for i = 1,#actors do
         for j = i+1,#actors do
             check_collision(actors[i], actors[j])
@@ -43,6 +51,9 @@ game.update = function (buttons)
     end
     for i,actor in ipairs(actors) do
         actor:update(buttons)
+    end
+    if player.x < scroll then
+        player.x = scroll
     end
     for i,actor in ipairs(actors) do
         if actor.killme then
@@ -61,7 +72,7 @@ end
 
 check_collision = function (a, b)
     if a.player == b.player or
-       #a.hitboxes == 0 or #b.hitboxes == 0
+       not a.hitboxes or not b.hitboxes
     then
         return
     end
@@ -81,6 +92,7 @@ end
 
 game.draw_hitboxes = function (sx, sy)
     lg.push()
+    lg.translate(-scroll*sx, 0)
     lg.scale(sx, sy)
     lg.setLineWidth(0.2)
     for _,actor in ipairs(actors) do

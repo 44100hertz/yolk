@@ -34,14 +34,14 @@ game.load_level = function (name)
 end
 
 local check_collision
-game.update = function ()
+game.update = function (buttons)
     for i = 1,#actors do
         for j = i+1,#actors do
             check_collision(actors[i], actors[j])
         end
     end
     for i,actor in ipairs(actors) do
-        actor:update() 
+        actor:update(buttons)
     end
     for i,actor in ipairs(actors) do
         if actor.killme then
@@ -53,7 +53,7 @@ end
 
 game.draw = function ()
     for i,actor in ipairs(actors) do
-        actor:draw() 
+        actor:draw()
     end
 end
 

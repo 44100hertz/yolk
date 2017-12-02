@@ -1,17 +1,17 @@
 local lg = love.graphics
 local test = {}
-test.hitboxes = {{50, 50, 100}}
+test.hitboxes = {{20, 20, 10}}
+function test:update()
+    self:physics()
+end
 function test:draw()
-    lg.setColor(255, 0, self.col)
-    lg.circle("fill", self.x, self.y, 100, 100)
-    self.col = 0
+    lg.setColor(255, 0, 0)
+    lg.circle("fill", self.x, self.y, 20, 20)
 end
 function test:collide()
-    self.col = 255
 end
 function test:init(x, y, dy)
     self:setpos(x, y)
-    self.col = 0
     self.dy = dy or 0
 end
 return test

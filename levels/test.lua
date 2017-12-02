@@ -1,8 +1,8 @@
 return {
     bgcolor = {85,45,65,255},
     actors = {
+        {"player", 20, 80},
         {"test", 20, 20},
-        {"test", 35, 150, -1},
 --        {"player", 40, 80},
 --        {"wall", 0, 0},
 --        {"wall", 0, 160},

@@ -1,4 +1,5 @@
 local game = {}
+local lg = love.graphics
 local actors
 
 local base_actor = {
@@ -52,6 +53,7 @@ game.update = function (buttons)
 end
 
 game.draw = function ()
+    lg.clear()
     for i,actor in ipairs(actors) do
         actor:draw()
     end
@@ -75,6 +77,23 @@ check_collision = function (a, b)
             end
         end
     end
+end
+
+game.draw_hitboxes = function (sx, sy)
+    lg.push()
+    lg.scale(sx, sy)
+    lg.setLineWidth(0.2)
+    for _,actor in ipairs(actors) do
+        if actor.player then
+            lg.setColor(0, 255, 255)
+        else
+            lg.setColor(255, 255, 0)
+        end
+        for _,hitbox in ipairs(actor.hitboxes) do
+            lg.circle("line", actor.x + hitbox[1], actor.y + hitbox[2], hitbox[3], 40)
+        end
+    end
+    lg.pop()
 end
 
 return game

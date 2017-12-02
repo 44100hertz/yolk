@@ -7,11 +7,11 @@ game.load_level("test")
 local buttons = {}
 local keymap = {
     z     = "a",  x     = "b",
+    i     = "du", k     = "dd",
+    j     = "dl", l     = "dr",
     lshift= "a",  lalt  = "b",
     up    = "du", down  = "dd",
     left  = "dl", right = "dr",
-    i     = "du", k     = "dd",
-    j     = "dl", l     = "dr",
     rctrl = "a",  rshift= "b",
     w     = "du", s     = "dd",
     a     = "dl", d     = "dr",
@@ -50,11 +50,14 @@ love.run = function ()
         game.update(buttons)
         lg.clear()
         internal:renderTo(function ()
-            lg.clear()
             game.draw()
         end)
         local ww, wh = love.window.getMode()
-        lg.draw(internal, 0, 0, 0, ww/_G.GAMEW, wh/_G.GAMEH)
+        local sx, sy = ww/_G.GAMEW, wh/_G.GAMEH
+        lg.draw(internal, 0, 0, 0, sx, sy)
+        if _G.DEBUG then
+            game.draw_hitboxes(sx, sy)
+        end
         lg.present()
     end
 end

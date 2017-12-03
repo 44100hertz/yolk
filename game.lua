@@ -46,7 +46,6 @@ local check_collision
 game.update = function (buttons)
     scroll = scroll + scroll_rate
     player.x = player.x + scroll_rate
-    lg.translate(-scroll, 0)
     for i = 1,#actors do
         for j = i+1,#actors do
             check_collision(actors[i], actors[j])
@@ -58,16 +57,28 @@ game.update = function (buttons)
     if player.x < scroll then
         player.x = scroll
     end
+    if player.y < -8 or player.y > _G.GAMEH-8 then
+        player.killme = true
+    end
     for i,actor in ipairs(actors) do
         if actor.killme then
             actor:die()
-            actors[#actors-1] = actors[i]
+            actors[i] = actors[#actors-1]
         end
     end
 end
 
+local border = {}
+border.image = lg.newImage("res/border.png")
+border.image:setWrap("repeat", "clamp")
+border.w,border.h = border.image:getDimensions()
+border.quad = lg.newQuad(0, 0, _G.GAMEW+border.w, border.h, border.w, border.h)
 game.draw = function ()
     lg.clear(85, 45, 65)
+    local border_x = math.floor(-scroll*2 % border.w - border.w)
+    lg.draw(border.image, border.quad, border_x, -border.h/2)
+    lg.draw(border.image, border.quad, border_x, _G.GAMEH-border.h/2)
+    lg.translate(-scroll, 0)
     for i,actor in ipairs(actors) do
         lg.setColor(255,255,255,255)
         actor:draw()

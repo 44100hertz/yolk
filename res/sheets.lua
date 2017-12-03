@@ -6,6 +6,5 @@ return {
     cateye      = {"res/cateye.png",    0,  0,  16, 16 },
     mask_body   = {"res/mask.png",      0,  0,  16, 16 },
     mask_face   = {"res/mask.png",      0,  16, 16, 16 },
-    wall        = {"res/wall.png",      0,  0,  16, 16 },
     bullet      = {"res/bullet.png",    0,  0,  8,  8, },
 }

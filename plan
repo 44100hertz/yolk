@@ -1,0 +1,39 @@
+Yolk: sideways shmup
+
+You're like a blue egg.
+Your "yolk" is your hurtbox (actual hurtbox smaller), and the "white" just gives you presence.
+You shoot out of a small mouth made of white.
+Your shots are affected by your movement, making things somewhat precise.
+Upon firing, a ring on the yolk indicates cooldown time until the next shot.
+A single hit kills you.
+Omnipresent dark waves at the top and bottom indicate that crossing the screen borders will kill you.
+Upon death, your egg explodes, screen shakes, and the level restarts.
+Levels are short to accomodate this.
+You have a score for encouragement, but the real goal is survival.
+The background scrolls and you are shown during the title, but the level does not scroll until you start playing.
+Level actors do not activate until a certain distance from screen edge.
+
+Early levels:
+Annoying enemies that challenge shooting ability.
+Death by foolishness reinforced; distractions.
+Single-shot attacks that target you directly.
+Easy-to-avoid obstacles.
+Medium but never fast pace.
+"goofy" bacteria, still feel fairly natural/liquid.
+Mid-levels could have animal-esque enemies.
+
+Later levels:
+Obstacles that require good shooting in order to avoid death.
+Strong enemies, fire becomes overwhelming unless killed.
+Several-shot attacks that don't always target you.
+Good reactions a requirement.
+Corrupted and crystalline designs, contrast with organic feel.
+
+Bosses:
+Have their own stage after a set of levels...probably.
+Never vulnerable all of the time.
+Player has some control over boss pace.
+Play with free-floating vs. part-of-stage bosses.
+Make them generally reflect the stage beforehand.
+No surprises! Bosses should test patience and resolve over raw skills.
+A determined player can beat any boss the first time.

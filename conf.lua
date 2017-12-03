@@ -1,5 +1,5 @@
 _G.GAMEW, _G.GAMEH = 256, 160
-_G.DEBUG = true
+--_G.DEBUG = true
 
 love.conf = function (t)
     t.window.width = GAMEW*3

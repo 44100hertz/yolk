@@ -1,5 +1,6 @@
 local game = {}
 local lg = love.graphics
+local sprites = require "sprites"
 local actors
 
 local base_actor = {
@@ -14,7 +15,9 @@ function base_actor:physics ()
     self.y = self.y + self.dy
 end
 function base_actor:update () self:physics () end
+function base_actor:spawn (...) game.add_actor (...) end
 function base_actor:die () end
+function base_actor:draw_sprite (...) sprites.draw(...) end
 function base_actor:draw () end
 function base_actor:collide () end
 
@@ -64,8 +67,9 @@ game.update = function (buttons)
 end
 
 game.draw = function ()
-    lg.clear()
+    lg.clear(85, 45, 65)
     for i,actor in ipairs(actors) do
+        lg.setColor(255,255,255,255)
         actor:draw()
     end
 end

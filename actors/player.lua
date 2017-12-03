@@ -28,8 +28,8 @@ function player:update(buttons)
     self.dy = keynum "dd" - keynum "du"
     if self.cooldown then
         self.cooldown = self.cooldown > 0 and self.cooldown-1 or false
-    else 
-        if buttons.a then
+    else
+        if buttons.a == 1 then
             local col = {135, 182, 195}
             self:spawn("bullet", self.x+5, self.y+4.5, 2, self.dy, col, true)
             self.cooldown = cool_len

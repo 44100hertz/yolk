@@ -31,10 +31,14 @@ function player:update(buttons)
     else
         if buttons.a == 1 then
             local col = {135, 182, 195}
-            self:spawn("bullet", self.x+5, self.y+4.5, 2, self.dy, col, true)
+            self:spawn("bullet", self.x+5, self.y+4.5+self.dy*3,
+                       self.dx/2+2, self.dy, col, true)
             self.cooldown = cool_len
         end
     end
     self:physics()
+end
+function player:collide(with)
+    self.killme = self.killme or not with.player
 end
 return player

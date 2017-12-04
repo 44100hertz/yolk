@@ -73,6 +73,7 @@ border.image = lg.newImage("res/border.png")
 border.image:setWrap("repeat", "clamp")
 border.w,border.h = border.image:getDimensions()
 border.quad = lg.newQuad(0, 0, _G.GAMEW+border.w, border.h, border.w, border.h)
+
 game.draw = function ()
     lg.clear(85, 45, 65)
     local border_x = math.floor(-scroll*2 % border.w - border.w)

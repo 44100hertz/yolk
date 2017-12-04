@@ -1,5 +1,5 @@
 return {
-    bgcolor = {85,45,65,255},
+    bgcolor = {78, 87, 119},
     actors = {
         {"test", 80, 20},
 --        {"player", 40, 80},

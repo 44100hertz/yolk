@@ -2,6 +2,7 @@ local game = {}
 local lg = love.graphics
 local sprites = require "sprites"
 local actors
+local level
 
 local base_actor = {
     x=0, y=0, dx=0, dy=0,
@@ -35,7 +36,7 @@ game.load_level = function (name)
     scroll = 0
     scroll_rate = 0.25
     actors = {}
-    local level = dofile("levels/" .. name .. ".lua")
+    level = dofile("levels/" .. name .. ".lua")
     for _,actor in ipairs(level.actors) do
         game.add_actor(unpack(actor))
     end
@@ -75,7 +76,7 @@ border.w,border.h = border.image:getDimensions()
 border.quad = lg.newQuad(0, 0, _G.GAMEW+border.w, border.h, border.w, border.h)
 
 game.draw = function ()
-    lg.clear(85, 45, 65)
+    lg.clear(level.bgcolor)
     local border_x = math.floor(-scroll*2 % border.w - border.w)
     lg.draw(border.image, border.quad, border_x, -border.h/2)
     lg.draw(border.image, border.quad, border_x, _G.GAMEH-border.h/2)

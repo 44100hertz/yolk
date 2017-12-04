@@ -3,7 +3,7 @@ local lg = love.graphics
 local cool_frames = 6
 local cool_len = 16
 
-local player = {}
+local player = {top = true}
 player.player = true
 player.hitboxes = {{8.5, 7.5, 3}}
 function player:init(x, y)
@@ -31,7 +31,7 @@ function player:update(buttons)
     else
         if buttons.a == 1 then
             local col = {135, 182, 195}
-            self:spawn("bullet", self.x+5, self.y+4.5+self.dy*3,
+            self:spawn("bullet", self.x+9, self.y+4.5+self.dy*2,
                        self.dx/2+2, self.dy, col, true)
             self.cooldown = cool_len
         end

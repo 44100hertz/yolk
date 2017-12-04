@@ -81,8 +81,16 @@ game.draw = function ()
     lg.draw(border.image, border.quad, border_x, _G.GAMEH-border.h/2)
     lg.translate(-scroll, 0)
     for i,actor in ipairs(actors) do
-        lg.setColor(255,255,255,255)
-        actor:draw()
+        if not actor.top then
+            lg.setColor(255,255,255,255)
+            actor:draw()
+        end
+    end
+    for i,actor in ipairs(actors) do
+        if actor.top then
+            lg.setColor(255,255,255,255)
+            actor:draw()
+        end
     end
 end
 

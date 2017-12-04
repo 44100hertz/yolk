@@ -12,4 +12,10 @@ function bullet:init(x, y, dx, dy, color, player)
     self.color = color
     self.player = player
 end
+function bullet:update()
+    self:physics()
+    if self.dx > 0 and self:offscreen_front() then
+        self.killme = true
+    end
+end
 return bullet

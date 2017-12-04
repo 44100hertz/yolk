@@ -2,6 +2,7 @@ local game = {}
 local lg = love.graphics
 local sprites = require "sprites"
 local actors
+local scroll, scroll_rate
 local level
 
 local base_actor = {
@@ -21,9 +22,11 @@ function base_actor:die () end
 function base_actor:draw_sprite (...) sprites.draw(...) end
 function base_actor:draw () end
 function base_actor:collide () end
+function base_actor:offscreen_front()
+    return self.x > scroll + _G.GAMEW*1.5
+end
 
 local player
-local scroll, scroll_rate
 game.add_actor = function (name, ...)
     local actor = dofile("actors/" .. name .. ".lua")
     setmetatable(actor, {__index = base_actor})
@@ -64,7 +67,8 @@ game.update = function (buttons)
     for i,actor in ipairs(actors) do
         if actor.killme then
             actor:die()
-            actors[i] = actors[#actors-1]
+            actors[i] = actors[#actors]
+            actors[#actors] = nil
         end
     end
 end

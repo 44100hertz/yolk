@@ -1,6 +1,6 @@
 local game = {}
+local artist = require "artist"
 local lg = love.graphics
-local sprites = require "sprites"
 local actors
 local scroll, scroll_rate
 local level
@@ -17,22 +17,21 @@ function base_actor:physics ()
     self.y = self.y + self.dy
 end
 function base_actor:update () self:physics () end
-function base_actor:spawn (...) game.add_actor (...) end
-function base_actor:die () end
-function base_actor:draw_sprite (...) sprites.draw(...) end
+function base_actor:die () self.killme = true end
 function base_actor:draw () end
 function base_actor:collide () end
-function base_actor:offscreen_front()
-    return self.x > scroll + _G.GAMEW*1.5
-end
 
 local player
-game.add_actor = function (name, ...)
+game.spawn = function (name, ...)
     local actor = dofile("actors/" .. name .. ".lua")
     setmetatable(actor, {__index = base_actor})
     actor:init(...)
     actors[#actors+1] = actor
     return actor
+end
+
+game.offscreen_front = function (x, thresh)
+    return x > scroll + _G.GAMEW * (thresh or 1.5)
 end
 
 game.load_level = function (name)
@@ -41,13 +40,14 @@ game.load_level = function (name)
     actors = {}
     level = dofile("levels/" .. name .. ".lua")
     for _,actor in ipairs(level.actors) do
-        game.add_actor(unpack(actor))
+        game.spawn(unpack(actor))
     end
-    player = game.add_actor("player", 20, _G.GAMEH/2)
+    player = game.spawn("player", 20, _G.GAMEH/2)
 end
 
 local check_collision
 game.update = function (buttons)
+    game.buttons = buttons
     scroll = scroll + scroll_rate
     player.x = player.x + scroll_rate
     for i = 1,#actors do
@@ -56,13 +56,13 @@ game.update = function (buttons)
         end
     end
     for i,actor in ipairs(actors) do
-        actor:update(buttons)
+        actor:update(game)
     end
     if player.x < scroll then
         player.x = scroll
     end
     if player.y < -8 or player.y > _G.GAMEH-8 then
-        player.killme = true
+        player:die()
     end
     for i,actor in ipairs(actors) do
         if actor.killme then
@@ -80,6 +80,7 @@ border.w,border.h = border.image:getDimensions()
 border.quad = lg.newQuad(0, 0, _G.GAMEW+border.w, border.h, border.w, border.h)
 
 game.draw = function ()
+    lg.setColor(255,255,255,255)
     lg.clear(level.bgcolor)
     local border_x = math.floor(-scroll*2 % border.w - border.w)
     lg.draw(border.image, border.quad, border_x, -border.h/2)
@@ -87,14 +88,12 @@ game.draw = function ()
     lg.translate(-scroll, 0)
     for i,actor in ipairs(actors) do
         if not actor.top then
-            lg.setColor(255,255,255,255)
-            actor:draw()
+            actor:draw(artist)
         end
     end
     for i,actor in ipairs(actors) do
         if actor.top then
-            lg.setColor(255,255,255,255)
-            actor:draw()
+            actor:draw(artist)
         end
     end
 end

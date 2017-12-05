@@ -1,9 +1,9 @@
 local bullet = {}
-function bullet:draw ()
+function bullet:draw (artist)
     love.graphics.setColor(self.color)
-    self:draw_sprite("bullet", 1, self.x, self.y)
-    self:draw_sprite("bullet", 2, self.x-self.dx*2, self.y-self.dy*2)
-    self:draw_sprite("bullet", 3, self.x-self.dx*3, self.y-self.dy*3)
+    artist.draw_sprite("bullet", 1, self.x, self.y)
+    artist.draw_sprite("bullet", 2, self.x-self.dx*2, self.y-self.dy*2)
+    artist.draw_sprite("bullet", 3, self.x-self.dx*3, self.y-self.dy*3)
     love.graphics.setColor(255,255,255,255)
 end
 function bullet:init(x, y, dx, dy, color, player)
@@ -12,9 +12,9 @@ function bullet:init(x, y, dx, dy, color, player)
     self.color = color
     self.player = player
 end
-function bullet:update()
+function bullet:update(game)
     self:physics()
-    if self.dx > 0 and self:offscreen_front() then
+    if self.dx > 0 and game.offscreen_front(self.x) then
         self.killme = true
     end
 end

@@ -6,15 +6,39 @@ local sheet_def = require "res/sheets"
 local images
 local sheets
 
-artist.draw_sprite = function (name, frame, x, y)
+local round = function (x)
+    return math.floor(x+0.5)
+end
+
+artist.draw_sprite = function (name, frame, x, y, ...)
+    local image, quad = artist.get_frame(name, frame)
+    lg.draw(image, quad, round(x), round(y), ...)
+end
+
+artist.batch = function (batch, name, frame, x, y, ...)
+    local _, quad = artist.get_frame(name, frame)
+    batch:add(quad, round(x), round(y), ...)
+end
+
+artist.new_batch = function (name, ...)
+    local iname = sheet_def[name][1]
+    return lg.newSpriteBatch(artist.get_image(iname), ...)
+end
+
+artist.get_image = function (name)
+    images[name] = images[name] or lg.newImage(name)
+    return images[name]
+end
+
+artist.get_frame = function (name, frame)
     local iname, qx, qy, qw, qh = unpack(sheet_def[name])
-    images[iname] = images[iname] or lg.newImage(iname)
-    local image = images[iname]
+    local image = artist.get_image(iname)
     sheets[name] = sheets[name] or {}
     sheets[name][frame] = sheets[name][frame] or
         lg.newQuad(qx+qw*(frame-1), qy, qw, qh, image:getDimensions())
-    lg.draw(image, sheets[name][frame], math.floor(x+0.5), math.floor(y+0.5))
+    return images[iname], sheets[name][frame]
 end
+
 
 artist.new_anim = function (name, len, loop)
     return {name=name, frames=sheet_def[name][6],

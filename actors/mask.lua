@@ -1,5 +1,6 @@
+local game = require "game"
 local mask = {
-    hitboxes = {{5, 8.5, 6}},
+    hitboxes = {{8, 8, 6}},
 }
 function mask:init(x, y)
     self:setpos(x, y+30)
@@ -11,10 +12,14 @@ function mask:draw(artist)
     artist.draw_anim(self.body_anim, self.x, self.y)
     artist.draw_sprite("mask_face", 1, self.x, self.y)
 end
-function mask:update(game)
+function mask:update()
     if not game.offscreen_front(self.x, 1.0) then
         self.dy = self.dy + (self.root_y - self.y) * 0.001
         self:physics()
     end
+end
+function mask:collide(with)
+    self.killme = true
+    game.spawn("boom", self.x, self.y, {0,0,0}, 10)
 end
 return mask

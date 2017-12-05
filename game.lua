@@ -58,7 +58,7 @@ game.update = function (buttons)
         end
     end
     for i,actor in ipairs(actors) do
-        actor:update(game)
+        actor:update()
     end
     if player.x < scroll then
         player.x = scroll

@@ -1,3 +1,5 @@
+local game = require "game"
+
 local shoot_len = 16
 local blink_len = 8
 local dead_len = 40
@@ -29,7 +31,7 @@ function player:draw(artist)
     artist.draw_anim(self.anim, self.x, self.y)
 end
 
-function player:update(game)
+function player:update()
     if self.anim.name == "yolk_die" then
         if self.anim.pos > dead_len then
             game.spawn("boom", self.x+9, self.y+4.5, color, 40)
@@ -49,7 +51,7 @@ function player:update(game)
         end
     else
         if game.buttons.a == 1 then
-            game.spawn("bullet", self.x+9, self.y+4.5+self.dy,
+            game.spawn("bullet", self.x+9, self.y+4+self.dy,
                        self.dx+3, self.dy, color, true)
             self.anim = self:new_anim("yolk_shoot", shoot_len, false)
             self.white_anim = self:new_anim("white_shoot", shoot_len, false)
@@ -59,9 +61,7 @@ function player:update(game)
     self:physics()
 end
 function player:collide(with)
-    if not with.player then
-        self:die()
-    end
+    self:die()
 end
 function player:die()
     if not self.dead then

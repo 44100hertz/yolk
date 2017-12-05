@@ -7,6 +7,7 @@ local level
 
 local base_actor = {
     x=0, y=0, dx=0, dy=0,
+    hitboxes = {},
 }
 function base_actor:setpos (x, y)
     self.x, self.y = x ,y

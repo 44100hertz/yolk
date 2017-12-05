@@ -20,6 +20,7 @@ function base_actor:update () self:physics () end
 function base_actor:die () self.killme = true end
 function base_actor:draw () end
 function base_actor:collide () end
+function base_actor:new_anim (...) return artist.new_anim(...) end
 
 local player
 game.spawn = function (name, ...)

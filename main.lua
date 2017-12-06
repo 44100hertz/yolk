@@ -1,8 +1,4 @@
-local lg = love.graphics
-
-local game = require "game"
-
-game.load_level("test")
+local scenes = require "scenes"
 
 local buttons = {}
 local keymap = {
@@ -15,6 +11,7 @@ local keymap = {
     rctrl = "a",  rshift= "b",
     w     = "du", s     = "dd",
     a     = "dl", d     = "dr",
+    ["return"] = "start",
 }
 
 local handlers = {
@@ -30,9 +27,6 @@ local handlers = {
     end
 }
 
-lg.setDefaultFilter("nearest", "nearest")
-local internal = lg.newCanvas(_G.GAMEW, _G.GAMEH)
-
 love.run = function ()
     while true do
         for k,_ in pairs(buttons) do
@@ -47,18 +41,7 @@ love.run = function ()
                 handlers[name](a,b,c,d,e,f)
             end
         end
-        game.update(buttons)
-        lg.clear()
-        internal:renderTo(function ()
-            game.draw()
-        end)
-        lg.origin()
-        local ww, wh = love.window.getMode()
-        local sx, sy = ww/_G.GAMEW, wh/_G.GAMEH
-        lg.draw(internal, 0, 0, 0, sx, sy)
-        if _G.DEBUG then
-            game.draw_hitboxes(sx, sy)
-        end
-        lg.present()
+        scenes.update(buttons)
+        scenes.draw()
     end
 end

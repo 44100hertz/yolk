@@ -1,6 +1,6 @@
 local game = require "game"
 local mask = {
-    hitboxes = {{8, 8, 6}},
+    hitboxes = {{9, 8, 6}},
 }
 function mask:init(x, y)
     self:setpos(x, y+30)
@@ -10,7 +10,7 @@ function mask:init(x, y)
 end
 function mask:draw(artist)
     artist.draw_anim(self.body_anim, self.x, self.y)
-    artist.draw_sprite("mask_face", 1, self.x, self.y)
+    artist.draw_sprite("mask_face", 1, self.x, self.y+self.dy*2)
 end
 function mask:update()
     if not game.offscreen_front(self.x, 1.0) then

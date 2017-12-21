@@ -4,7 +4,6 @@ local scenes = {}
 lg.setDefaultFilter("nearest", "nearest")
 local internal = lg.newCanvas(_G.GAMEW, _G.GAMEH)
 
-
 local buttons = {}
 local keymap = {
     z     = "a",  x     = "b",
@@ -31,12 +30,9 @@ local handlers = {
         end
     end
 }
-setmetatable(handlers, {__index = love.handlers})
 
 local quitall
 scenes.run = function (scene)
-    local scene = require "game"
-    scene.load_level("test")
     while not quitall and not scene.update(buttons) do
         for k,_ in pairs(buttons) do
             buttons[k] = buttons[k] and buttons[k]+1
@@ -45,15 +41,15 @@ scenes.run = function (scene)
         for name, a,b,c,d,e,f in love.event.poll() do
             if name == "quit" then
                 quitall = true
-            else
+            elseif handlers[name] then
                 handlers[name](a,b,c,d,e,f)
             end
         end
         internal:renderTo(function ()
                 scene.draw()
         end)
-        if _G.DEBUG then
-            game.draw_hitboxes(sx, sy)
+        if _G.DEBUG and scene.draw_debug then
+            scene.draw_debug(sx, sy)
         end
         lg.origin()
         local ww, wh = love.window.getMode()
@@ -61,10 +57,6 @@ scenes.run = function (scene)
         lg.draw(internal, 0, 0, 0, sx, sy)
         lg.present()
     end
-end
-
-scenes.update = function (buttons)
-    game.update(buttons)
 end
 
 return scenes

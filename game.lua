@@ -120,7 +120,7 @@ check_collision = function (a, b)
     end
 end
 
-game.draw_hitboxes = function (sx, sy)
+game.draw_debug = function (sx, sy)
     lg.push()
     lg.translate(-scroll*sx, 0)
     lg.scale(sx, sy)

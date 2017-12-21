@@ -1,5 +1,6 @@
 local scenes = require "scenes"
 
 love.run = function ()
-    scenes.run()
+    local menu = require "menu"
+    scenes.run(menu)
 end
